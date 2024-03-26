@@ -1,0 +1,9 @@
+apis/DatenControllerApi.ts
+apis/UserControllerApi.ts
+apis/index.ts
+index.ts
+models/AuthDto.ts
+models/Datensatz.ts
+models/LoginDto.ts
+models/index.ts
+runtime.ts
