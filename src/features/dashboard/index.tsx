@@ -5,7 +5,7 @@ import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 
-export const DashboardContent = () => {
+export default function Dashboard() {
   return (
     <Grid container spacing={3}>
       {/* Chart */}
@@ -42,4 +42,4 @@ export const DashboardContent = () => {
       </Grid>
     </Grid>
   );
-};
+}

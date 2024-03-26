@@ -1,8 +1,8 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import Dashboard from '../features/dashboard/Dashboard';
+import Layout from '../features/layout';
 
 export const Route = createFileRoute('/_index')({
-  component: () => <Dashboard />,
+  component: () => <Layout />,
   beforeLoad: async ({ location }) => {
     if (localStorage.getItem('accessToken') == null) {
       throw redirect({

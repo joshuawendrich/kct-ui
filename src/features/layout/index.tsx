@@ -9,7 +9,7 @@ import { AppBar } from './AppBar';
 import { Drawer } from './Drawer';
 import { Outlet } from '@tanstack/react-router';
 
-export default function Dashboard() {
+export default function Layout() {
   const [open, setOpen] = React.useState(true);
 
   const toggleDrawer = () => {

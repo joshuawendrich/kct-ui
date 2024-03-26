@@ -3,8 +3,14 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
 import { Toolbar, styled } from '@mui/material';
+import * as React from 'react';
+import UploadIcon from '@mui/icons-material/Upload';
+import ListSubheader from '@mui/material/ListSubheader';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import PersonIcon from '@mui/icons-material/Person';
+import NewUserIcon from '@mui/icons-material/Add';
+import { DrawerItem } from './DrawerItem';
 
 type DrawerProps = {
   open: boolean;
@@ -56,9 +62,22 @@ export const Drawer: React.FC<DrawerProps> = ({ open, toggleDrawer }) => {
       </Toolbar>
       <Divider />
       <List component="nav">
-        {mainListItems}
+        <DrawerItem title="Dashboard" IconComponent={DashboardIcon} href="/" />
+        <DrawerItem title="Upload" IconComponent={UploadIcon} href="/upload" />
         <Divider sx={{ my: 1 }} />
-        {secondaryListItems}
+        <ListSubheader component="div" inset>
+          Admin Tools
+        </ListSubheader>
+        <DrawerItem
+          href="/users"
+          title="Manage Users"
+          IconComponent={PersonIcon}
+        />
+        <DrawerItem
+          href="/users/create"
+          title="Create User"
+          IconComponent={NewUserIcon}
+        />
       </List>
     </MUIDrawer>
   );
