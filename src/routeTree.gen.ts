@@ -10,53 +10,62 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './routes/__root';
-import { Route as LoginImport } from './routes/login';
-import { Route as LayoutImport } from './routes/_layout.index';
-import { Route as IndexImport } from './routes/index';
+import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
+import { Route as IndexImport } from './routes/_index'
+import { Route as IndexIndexImport } from './routes/_index/index'
+import { Route as IndexUploadImport } from './routes/_index/upload'
 
 // Create/Update Routes
 
 const LoginRoute = LoginImport.update({
   path: '/login',
   getParentRoute: () => rootRoute,
-} as any);
-
-const LayoutRoute = LayoutImport.update({
-  id: '/_layout',
-  getParentRoute: () => rootRoute,
-} as any);
+} as any)
 
 const IndexRoute = IndexImport.update({
-  path: '/',
+  id: '/_index',
   getParentRoute: () => rootRoute,
-} as any);
+} as any)
+
+const IndexIndexRoute = IndexIndexImport.update({
+  path: '/',
+  getParentRoute: () => IndexRoute,
+} as any)
+
+const IndexUploadRoute = IndexUploadImport.update({
+  path: '/upload',
+  getParentRoute: () => IndexRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      preLoaderRoute: typeof IndexImport;
-      parentRoute: typeof rootRoute;
-    };
-    '/_layout': {
-      preLoaderRoute: typeof LayoutImport;
-      parentRoute: typeof rootRoute;
-    };
+    '/_index': {
+      preLoaderRoute: typeof IndexImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
-      preLoaderRoute: typeof LoginImport;
-      parentRoute: typeof rootRoute;
-    };
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_index/upload': {
+      preLoaderRoute: typeof IndexUploadImport
+      parentRoute: typeof IndexImport
+    }
+    '/_index/': {
+      preLoaderRoute: typeof IndexIndexImport
+      parentRoute: typeof IndexImport
+    }
   }
 }
 
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  IndexRoute,
-  LayoutRoute,
+  IndexRoute.addChildren([IndexUploadRoute, IndexIndexRoute]),
   LoginRoute,
-]);
+])
 
 /* prettier-ignore-end */
