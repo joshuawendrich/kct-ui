@@ -1,45 +1,68 @@
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Datensatz } from '../../api/generated';
+import { useQuery } from '@tanstack/react-query';
+import { getAllData } from '../../api/daten';
 
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
+const columns: GridColDef<Datensatz>[] = [
+  { field: 'id', headerName: 'ID', width: 90 },
+  {
+    field: 'detailangabe1',
+    headerName: 'Detailangabe 1',
+    width: 150,
+  },
+  {
+    field: 'detailangabe2',
+    headerName: 'Detailangabe 2',
+    width: 150,
+  },
+  {
+    field: 'produktLeistung',
+    headerName: 'Produkt Leistung',
+  },
+  {
+    field: 'nutzer',
+    headerName: 'Nutzer',
+  },
+  {
+    field: 'monat',
+    headerName: 'Monat',
+    type: 'number',
+  },
+  {
+    field: 'jahr',
+    headerName: 'Jahr',
+    type: 'number',
+  },
+  {
+    field: 'kostenstelle',
+    headerName: 'Kostenstelle',
+  },
+];
 
-export default function Dashboard() {
+export default function DataGridDemo() {
+  const { data, isLoading, isError } = useQuery({
+    queryFn: getAllData,
+    queryKey: ['data'],
+  });
+
+  if (isLoading || isError || data == null) return <div></div>;
+
   return (
-    <Grid container spacing={3}>
-      {/* Chart */}
-      <Grid item xs={12} md={8} lg={9}>
-        <Paper
-          sx={{
-            p: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            height: 240,
-          }}
-        >
-          <Chart />
-        </Paper>
-      </Grid>
-      {/* Recent Deposits */}
-      <Grid item xs={12} md={4} lg={3}>
-        <Paper
-          sx={{
-            p: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            height: 240,
-          }}
-        >
-          <Deposits />
-        </Paper>
-      </Grid>
-      {/* Recent Orders */}
-      <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-          <Orders />
-        </Paper>
-      </Grid>
-    </Grid>
+    <Box sx={{ width: '100%' }}>
+      <DataGrid
+        rows={data}
+        columns={columns}
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 10,
+            },
+          },
+        }}
+        pageSizeOptions={[5]}
+        disableRowSelectionOnClick
+      />
+    </Box>
   );
 }

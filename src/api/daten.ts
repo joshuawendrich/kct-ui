@@ -6,3 +6,7 @@ const client = new DatenControllerApi(configuration);
 export const uploadData = async (file: File) => {
   return await client.uploadData({ file });
 };
+
+export const getAllData = async () => {
+  return await client.getData();
+};
