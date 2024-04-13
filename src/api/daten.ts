@@ -1,5 +1,5 @@
 import { configuration } from './_config';
-import { DatenControllerApi } from './generated';
+import { DatenControllerApi, UpdateZusatzInfosDto } from './generated';
 
 const client = new DatenControllerApi(configuration);
 
@@ -13,4 +13,11 @@ export const getAllData = async () => {
 
 export const getZusatzInfosForDatensatz = async (id: number) => {
   return await client.getZusatzInfosForDatensatz({ id });
+};
+
+export const updateZusatzinfos = async (
+  id: number,
+  updateZusatzInfosDto: UpdateZusatzInfosDto
+) => {
+  return await client.updateZusatzinfos({ id, updateZusatzInfosDto });
 };

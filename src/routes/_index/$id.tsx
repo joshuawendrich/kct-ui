@@ -1,9 +1,9 @@
 import { Button, Grid, TextField } from '@mui/material';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { FC, useState } from 'react';
-import { getZusatzInfosForDatensatz } from '../../api/daten';
-import { ZusatzInfos } from '../../api/generated';
+import { getZusatzInfosForDatensatz, updateZusatzinfos } from '../../api/daten';
+import { UpdateZusatzInfosDto, ZusatzInfos } from '../../api/generated';
 import Save from '@mui/icons-material/Save';
 
 export const Route = createFileRoute('/_index/$id')({
@@ -20,15 +20,19 @@ const EditDataLoader: FC = () => {
 
   if (isLoading || isError || data == null) return <div></div>;
 
-  return <EditData zusatzInfos={data} />;
+  return <EditData zusatzInfos={data} id={id} />;
 };
 
 type EditDataProps = {
   zusatzInfos: ZusatzInfos;
+  id: string;
 };
 
-const EditData: FC<EditDataProps> = ({ zusatzInfos }) => {
-  console.log(zusatzInfos);
+const EditData: FC<EditDataProps> = ({ zusatzInfos, id }) => {
+  const { mutate: updateZusatzinfosMutation } = useMutation({
+    mutationFn: (updaetZusatzInfosDto: UpdateZusatzInfosDto) =>
+      updateZusatzinfos(parseInt(id), updaetZusatzInfosDto),
+  });
 
   const [bemerkung, setBemerkung] = useState(zusatzInfos.bemerkung);
   const [psp, setPsp] = useState(zusatzInfos.pspElement);
@@ -50,6 +54,10 @@ const EditData: FC<EditDataProps> = ({ zusatzInfos }) => {
     }
     if (newVal < 1 || newVal > 12) return;
     setAbgerechnet(e.target.value);
+  };
+
+  const handleSave = () => {
+    updateZusatzinfosMutation({ bemerkung, psp, abgerechnet });
   };
 
   return (
@@ -83,7 +91,7 @@ const EditData: FC<EditDataProps> = ({ zusatzInfos }) => {
         />
       </Grid>
       <Grid item>
-        <Button variant="contained" startIcon={<Save />}>
+        <Button variant="contained" startIcon={<Save />} onClick={handleSave}>
           Speichern
         </Button>
       </Grid>

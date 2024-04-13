@@ -16,17 +16,25 @@
 import * as runtime from '../runtime';
 import type {
   Datensatz,
+  UpdateZusatzInfosDto,
   ZusatzInfos,
 } from '../models/index';
 import {
     DatensatzFromJSON,
     DatensatzToJSON,
+    UpdateZusatzInfosDtoFromJSON,
+    UpdateZusatzInfosDtoToJSON,
     ZusatzInfosFromJSON,
     ZusatzInfosToJSON,
 } from '../models/index';
 
 export interface GetZusatzInfosForDatensatzRequest {
     id: number;
+}
+
+export interface UpdateZusatzinfosRequest {
+    id: number;
+    updateZusatzInfosDto: UpdateZusatzInfosDto;
 }
 
 export interface UploadDataRequest {
@@ -107,6 +115,54 @@ export class DatenControllerApi extends runtime.BaseAPI {
     async getZusatzInfosForDatensatz(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ZusatzInfos> {
         const response = await this.getZusatzInfosForDatensatzRaw(requestParameters, initOverrides);
         return await response.value();
+    }
+
+    /**
+     */
+    async updateZusatzinfosRaw(requestParameters: UpdateZusatzinfosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling updateZusatzinfos().'
+            );
+        }
+
+        if (requestParameters['updateZusatzInfosDto'] == null) {
+            throw new runtime.RequiredError(
+                'updateZusatzInfosDto',
+                'Required parameter "updateZusatzInfosDto" was null or undefined when calling updateZusatzinfos().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/data/{id}/zusatz-infos`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: UpdateZusatzInfosDtoToJSON(requestParameters['updateZusatzInfosDto']),
+        }, initOverrides);
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async updateZusatzinfos(requestParameters: UpdateZusatzinfosRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<void> {
+        await this.updateZusatzinfosRaw(requestParameters, initOverrides);
     }
 
     /**
