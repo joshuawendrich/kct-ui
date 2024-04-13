@@ -57,7 +57,11 @@ const EditData: FC<EditDataProps> = ({ zusatzInfos, id }) => {
   };
 
   const handleSave = () => {
-    updateZusatzinfosMutation({ bemerkung, psp, abgerechnet });
+    updateZusatzinfosMutation({
+      bemerkung,
+      psp,
+      abgerechnet: abgerechnet == null ? undefined : parseInt(abgerechnet),
+    });
   };
 
   return (
