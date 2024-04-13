@@ -16,11 +16,18 @@
 import * as runtime from '../runtime';
 import type {
   Datensatz,
+  ZusatzInfos,
 } from '../models/index';
 import {
     DatensatzFromJSON,
     DatensatzToJSON,
+    ZusatzInfosFromJSON,
+    ZusatzInfosToJSON,
 } from '../models/index';
+
+export interface GetZusatzInfosForDatensatzRequest {
+    id: number;
+}
 
 export interface UploadDataRequest {
     file: Blob;
@@ -65,9 +72,51 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
     /**
      */
+    async getZusatzInfosForDatensatzRaw(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ZusatzInfos>> {
+        if (requestParameters['id'] == null) {
+            throw new runtime.RequiredError(
+                'id',
+                'Required parameter "id" was null or undefined when calling getZusatzInfosForDatensatz().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/data/{id}/zusatz-infos`.replace(`{${"id"}}`, encodeURIComponent(String(requestParameters['id']))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ZusatzInfosFromJSON(jsonValue));
+    }
+
+    /**
+     */
+    async getZusatzInfosForDatensatz(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ZusatzInfos> {
+        const response = await this.getZusatzInfosForDatensatzRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     */
     async uploadDataRaw(requestParameters: UploadDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<object>> {
-        if (requestParameters.file === null || requestParameters.file === undefined) {
-            throw new runtime.RequiredError('file','Required parameter requestParameters.file was null or undefined when calling uploadData.');
+        if (requestParameters['file'] == null) {
+            throw new runtime.RequiredError(
+                'file',
+                'Required parameter "file" was null or undefined when calling uploadData().'
+            );
         }
 
         const queryParameters: any = {};
@@ -98,8 +147,8 @@ export class DatenControllerApi extends runtime.BaseAPI {
             formParams = new URLSearchParams();
         }
 
-        if (requestParameters.file !== undefined) {
-            formParams.append('file', requestParameters.file as any);
+        if (requestParameters['file'] != null) {
+            formParams.append('file', requestParameters['file'] as any);
         }
 
         const response = await this.request({

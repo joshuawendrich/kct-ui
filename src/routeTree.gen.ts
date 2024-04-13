@@ -15,6 +15,7 @@ import { Route as LoginImport } from './routes/login'
 import { Route as IndexImport } from './routes/_index'
 import { Route as IndexIndexImport } from './routes/_index/index'
 import { Route as IndexUploadImport } from './routes/_index/upload'
+import { Route as IndexIdImport } from './routes/_index/$id'
 
 // Create/Update Routes
 
@@ -38,6 +39,11 @@ const IndexUploadRoute = IndexUploadImport.update({
   getParentRoute: () => IndexRoute,
 } as any)
 
+const IndexIdRoute = IndexIdImport.update({
+  path: '/$id',
+  getParentRoute: () => IndexRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -49,6 +55,10 @@ declare module '@tanstack/react-router' {
     '/login': {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
+    }
+    '/_index/$id': {
+      preLoaderRoute: typeof IndexIdImport
+      parentRoute: typeof IndexImport
     }
     '/_index/upload': {
       preLoaderRoute: typeof IndexUploadImport
@@ -64,7 +74,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  IndexRoute.addChildren([IndexUploadRoute, IndexIndexRoute]),
+  IndexRoute.addChildren([IndexIdRoute, IndexUploadRoute, IndexIndexRoute]),
   LoginRoute,
 ])
 

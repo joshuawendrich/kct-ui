@@ -41,8 +41,11 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      */
     async loginUserRaw(requestParameters: LoginUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthDto>> {
-        if (requestParameters.loginDto === null || requestParameters.loginDto === undefined) {
-            throw new runtime.RequiredError('loginDto','Required parameter requestParameters.loginDto was null or undefined when calling loginUser.');
+        if (requestParameters['loginDto'] == null) {
+            throw new runtime.RequiredError(
+                'loginDto',
+                'Required parameter "loginDto" was null or undefined when calling loginUser().'
+            );
         }
 
         const queryParameters: any = {};
@@ -64,7 +67,7 @@ export class UserControllerApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: LoginDtoToJSON(requestParameters.loginDto),
+            body: LoginDtoToJSON(requestParameters['loginDto']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AuthDtoFromJSON(jsonValue));
@@ -80,8 +83,11 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      */
     async registerUserRaw(requestParameters: RegisterUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthDto>> {
-        if (requestParameters.loginDto === null || requestParameters.loginDto === undefined) {
-            throw new runtime.RequiredError('loginDto','Required parameter requestParameters.loginDto was null or undefined when calling registerUser.');
+        if (requestParameters['loginDto'] == null) {
+            throw new runtime.RequiredError(
+                'loginDto',
+                'Required parameter "loginDto" was null or undefined when calling registerUser().'
+            );
         }
 
         const queryParameters: any = {};
@@ -103,7 +109,7 @@ export class UserControllerApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: LoginDtoToJSON(requestParameters.loginDto),
+            body: LoginDtoToJSON(requestParameters['loginDto']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AuthDtoFromJSON(jsonValue));

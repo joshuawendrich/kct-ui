@@ -10,3 +10,7 @@ export const uploadData = async (file: File) => {
 export const getAllData = async () => {
   return await client.getData();
 };
+
+export const getZusatzInfosForDatensatz = async (id: number) => {
+  return await client.getZusatzInfosForDatensatz({ id });
+};

@@ -3,3 +3,4 @@
 export * from './AuthDto';
 export * from './Datensatz';
 export * from './LoginDto';
+export * from './ZusatzInfos';

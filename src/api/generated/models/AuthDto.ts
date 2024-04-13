@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 
-import { exists, mapValues } from '../runtime';
+import { mapValues } from '../runtime';
 /**
  * 
  * @export
@@ -31,9 +31,7 @@ export interface AuthDto {
  * Check if a given object implements the AuthDto interface.
  */
 export function instanceOfAuthDto(value: object): boolean {
-    let isInstance = true;
-
-    return isInstance;
+    return true;
 }
 
 export function AuthDtoFromJSON(json: any): AuthDto {
@@ -41,25 +39,22 @@ export function AuthDtoFromJSON(json: any): AuthDto {
 }
 
 export function AuthDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): AuthDto {
-    if ((json === undefined) || (json === null)) {
+    if (json == null) {
         return json;
     }
     return {
         
-        'accessToken': !exists(json, 'accessToken') ? undefined : json['accessToken'],
+        'accessToken': json['accessToken'] == null ? undefined : json['accessToken'],
     };
 }
 
 export function AuthDtoToJSON(value?: AuthDto | null): any {
-    if (value === undefined) {
-        return undefined;
-    }
-    if (value === null) {
-        return null;
+    if (value == null) {
+        return value;
     }
     return {
         
-        'accessToken': value.accessToken,
+        'accessToken': value['accessToken'],
     };
 }
 
