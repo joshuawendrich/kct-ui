@@ -2,9 +2,12 @@ import { createFileRoute } from '@tanstack/react-router';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Grid } from '@mui/material';
+import CheckIcon from '@mui/icons-material/Check';
+import { CircularProgress, Grid, Typography } from '@mui/material';
 import FileIcon from '@mui/icons-material/Folder';
 import { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { uploadData } from '../../api/daten';
 
 export const Route = createFileRoute('/_index/upload')({
   component: () => <FileUploadPage />,
@@ -25,11 +28,23 @@ const VisuallyHiddenInput = styled('input')({
 const FileUploadPage = () => {
   const [file, setFile] = useState<File | undefined>();
 
-  console.log(file);
+  const {
+    mutate: uploadFileMutation,
+    isPending,
+    isError,
+    isSuccess,
+  } = useMutation({
+    mutationFn: uploadData,
+  });
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.files?.[0] == null) return;
     setFile(e.currentTarget.files[0]);
+  };
+
+  const handleUploadFile = () => {
+    if (file == null) return;
+    uploadFileMutation(file);
   };
 
   return (
@@ -51,10 +66,24 @@ const FileUploadPage = () => {
         </Button>
       </Grid>
       <Grid item>
-        {' '}
-        <Button startIcon={<CloudUploadIcon />} disabled={file == null}>
-          Hochladen
-        </Button>
+        <Grid container alignItems={'center'}>
+          <Grid item>
+            <Button
+              startIcon={<CloudUploadIcon />}
+              disabled={file == null || isSuccess || isPending}
+              onClick={handleUploadFile}
+            >
+              Hochladen
+            </Button>
+          </Grid>
+          <Grid item>
+            {isError && (
+              <Typography color={'error'}>Fehler beim Hochladen</Typography>
+            )}
+            {isPending && <CircularProgress size={20} />}
+            {isSuccess && <CheckIcon color={'success'} />}
+          </Grid>
+        </Grid>
       </Grid>
     </Grid>
   );
