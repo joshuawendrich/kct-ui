@@ -3,6 +3,7 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Datensatz } from '../../api/generated';
 import { useQuery } from '@tanstack/react-query';
 import { getAllData } from '../../api/daten';
+import { Link } from '@tanstack/react-router';
 
 const columns: GridColDef<Datensatz>[] = [
   { field: 'id', headerName: 'ID', width: 90 },
@@ -37,6 +38,13 @@ const columns: GridColDef<Datensatz>[] = [
   {
     field: 'kostenstelle',
     headerName: 'Kostenstelle',
+  },
+  {
+    field: 'x',
+    headerName: 'Link',
+    renderCell: (params) => (
+      <Link to={`/${params.row.id ?? ''}`}>Bearbeiten</Link>
+    ),
   },
 ];
 
