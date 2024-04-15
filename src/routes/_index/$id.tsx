@@ -3,7 +3,7 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { FC, useState } from 'react';
 import { getZusatzInfosForDatensatz, updateZusatzinfos } from '../../api/daten';
-import { UpdateZusatzInfosDto, ZusatzInfos } from '../../api/generated';
+import { UpdateZusatzInfosDto, ZusatzInfosDto } from '../../api/generated';
 import Save from '@mui/icons-material/Save';
 
 export const Route = createFileRoute('/_index/$id')({
@@ -24,7 +24,7 @@ const EditDataLoader: FC = () => {
 };
 
 type EditDataProps = {
-  zusatzInfos: ZusatzInfos;
+  zusatzInfos: ZusatzInfosDto;
   id: string;
 };
 

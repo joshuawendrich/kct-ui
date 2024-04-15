@@ -3,9 +3,9 @@ apis/UserControllerApi.ts
 apis/index.ts
 index.ts
 models/AuthDto.ts
-models/Datensatz.ts
+models/DatensatzDto.ts
 models/LoginDto.ts
 models/UpdateZusatzInfosDto.ts
-models/ZusatzInfos.ts
+models/ZusatzInfosDto.ts
 models/index.ts
 runtime.ts

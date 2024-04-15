@@ -15,17 +15,17 @@
 
 import * as runtime from '../runtime';
 import type {
-  Datensatz,
+  DatensatzDto,
   UpdateZusatzInfosDto,
-  ZusatzInfos,
+  ZusatzInfosDto,
 } from '../models/index';
 import {
-    DatensatzFromJSON,
-    DatensatzToJSON,
+    DatensatzDtoFromJSON,
+    DatensatzDtoToJSON,
     UpdateZusatzInfosDtoFromJSON,
     UpdateZusatzInfosDtoToJSON,
-    ZusatzInfosFromJSON,
-    ZusatzInfosToJSON,
+    ZusatzInfosDtoFromJSON,
+    ZusatzInfosDtoToJSON,
 } from '../models/index';
 
 export interface GetZusatzInfosForDatensatzRequest {
@@ -48,7 +48,7 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getDataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Datensatz>>> {
+    async getDataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatensatzDto>>> {
         const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -68,19 +68,19 @@ export class DatenControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatensatzFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(DatensatzDtoFromJSON));
     }
 
     /**
      */
-    async getData(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Datensatz>> {
+    async getData(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatensatzDto>> {
         const response = await this.getDataRaw(initOverrides);
         return await response.value();
     }
 
     /**
      */
-    async getZusatzInfosForDatensatzRaw(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ZusatzInfos>> {
+    async getZusatzInfosForDatensatzRaw(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<ZusatzInfosDto>> {
         if (requestParameters['id'] == null) {
             throw new runtime.RequiredError(
                 'id',
@@ -107,12 +107,12 @@ export class DatenControllerApi extends runtime.BaseAPI {
             query: queryParameters,
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => ZusatzInfosFromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => ZusatzInfosDtoFromJSON(jsonValue));
     }
 
     /**
      */
-    async getZusatzInfosForDatensatz(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ZusatzInfos> {
+    async getZusatzInfosForDatensatz(requestParameters: GetZusatzInfosForDatensatzRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<ZusatzInfosDto> {
         const response = await this.getZusatzInfosForDatensatzRaw(requestParameters, initOverrides);
         return await response.value();
     }

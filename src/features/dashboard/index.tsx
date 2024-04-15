@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { Datensatz } from '../../api/generated';
+import { DatensatzDto } from '../../api/generated';
 import { useQuery } from '@tanstack/react-query';
-import { getAllData } from '../../api/daten';
-import { Link } from '@tanstack/react-router';
+import { getAllData, updateZusatzinfos } from '../../api/daten';
+import { IconButton } from '@mui/material';
+import Save from '@mui/icons-material/Save';
 
-const columns: GridColDef<Datensatz>[] = [
-  { field: 'id', headerName: 'ID', width: 90 },
+const columns: GridColDef<DatensatzDto>[] = [
+  { field: 'id', headerName: 'ID' },
   {
     field: 'detailangabe1',
     headerName: 'Detailangabe 1',
@@ -21,10 +22,10 @@ const columns: GridColDef<Datensatz>[] = [
     field: 'produktLeistung',
     headerName: 'Produkt Leistung',
   },
-  {
-    field: 'nutzer',
-    headerName: 'Nutzer',
-  },
+  // {
+  //   field: 'nutzer',
+  //   headerName: 'Nutzer',
+  // },
   {
     field: 'monat',
     headerName: 'Monat',
@@ -40,12 +41,69 @@ const columns: GridColDef<Datensatz>[] = [
     headerName: 'Kostenstelle',
   },
   {
-    field: 'x',
-    headerName: 'Link',
+    field: 'zusatzinfos.bemerkung',
+    headerName: 'Bemerkung',
+    valueGetter: ({ row }) => {
+      return row.zusatzInfos?.bemerkung;
+    },
+    editable: true,
+    valueSetter: ({ row, value }) => {
+      return { ...row, zusatzInfos: { ...row.zusatzInfos, bemerkung: value } };
+    },
+  },
+  {
+    field: 'zusatzinfos.psp',
+    headerName: 'PSP Element',
+    editable: true,
+    valueGetter: ({ row }) => {
+      return row.zusatzInfos?.pspElement;
+    },
+    valueSetter: ({ row, value }) => {
+      return { ...row, zusatzInfos: { ...row.zusatzInfos, pspElement: value } };
+    },
+  },
+  {
+    field: 'zusatzinfos.abgerechnet',
+    headerName: 'Abgerechnet Monat',
+    valueGetter: ({ row }) => {
+      return row.zusatzInfos?.abgerechnetMonat;
+    },
+    editable: true,
+    valueSetter: ({ row, value }) => {
+      if (!/^\d+$/.test(value)) return row;
+      if (parseInt(value) > 12 || parseInt(value) < 1) return row;
+      return {
+        ...row,
+        zusatzInfos: { ...row.zusatzInfos, abgerechnetMonat: value },
+      };
+    },
+  },
+  {
+    field: 'save',
+    headerName: 'Speichern',
     renderCell: (params) => (
-      <Link to={`/${params.row.id ?? ''}`}>Bearbeiten</Link>
+      <IconButton
+        onClick={() => {
+          const row = params.row;
+          if (row.id == null) return;
+          updateZusatzinfos(row.id, {
+            abgerechnet: row.zusatzInfos?.abgerechnetMonat,
+            bemerkung: row.zusatzInfos?.bemerkung,
+            psp: row.zusatzInfos?.pspElement,
+          });
+        }}
+      >
+        <Save />
+      </IconButton>
     ),
   },
+  // {
+  //   field: 'x',
+  //   headerName: 'Link',
+  //   renderCell: (params) => (
+  //     <Link to={`/${params.row.id ?? ''}`}>Bearbeiten</Link>
+  //   ),
+  // },
 ];
 
 export default function DataGridDemo() {

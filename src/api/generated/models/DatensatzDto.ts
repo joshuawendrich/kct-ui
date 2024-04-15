@@ -13,411 +13,411 @@
  */
 
 import { mapValues } from '../runtime';
-import type { ZusatzInfos } from './ZusatzInfos';
+import type { ZusatzInfosDto } from './ZusatzInfosDto';
 import {
-    ZusatzInfosFromJSON,
-    ZusatzInfosFromJSONTyped,
-    ZusatzInfosToJSON,
-} from './ZusatzInfos';
+    ZusatzInfosDtoFromJSON,
+    ZusatzInfosDtoFromJSONTyped,
+    ZusatzInfosDtoToJSON,
+} from './ZusatzInfosDto';
 
 /**
  * 
  * @export
- * @interface Datensatz
+ * @interface DatensatzDto
  */
-export interface Datensatz {
+export interface DatensatzDto {
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     leistungsart?: string;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     aarNummer?: number;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     aposType?: number;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     vertragsnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     vertragsbezeichnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     teilvertragsnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     bestellnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     bestellnummerKunde?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     systelPspElement?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     systelPspElementBezeichnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     aufwandskonto?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     aufwandskontobezeichnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     buchungskreis?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     debitornummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     kunde?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     bahnstelle?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     organisationseinheit?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     kostenstelle?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     sapPspElement?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     sapPspElementBezeichnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     anlagenNummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     anlagenBezeichnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     belasteterAarAuftrag?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     korrekturbuchnung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     produktLeistung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     produktId?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     leistendePerson?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     detailangabe1?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     detailangabe2?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     kurzbeschreibung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     nutzer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     nutzerOe?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     emailAdresse?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     ipPort?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     hostname?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     seriennummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     idgNummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     imeiNummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     telefonnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     ort?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     strasseHausnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     raum?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     leistungszeitraum?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     preisinformation?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     foerderung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     anteil?: string;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     menge?: number;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     mengeneinheit?: string;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     einzelpreis?: number;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     vkZuschlag?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     arbeitsplatzZuschlag?: string;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     gesamtpreis?: number;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     monat?: number;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     jahr?: number;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     rechnungsnummer?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     rechnungsdatum?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     kundenkennung?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     leistungssegment?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     produktgruppe?: string;
     /**
      * 
      * @type {string}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     bestandsId?: string;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     id?: number;
     /**
      * 
      * @type {number}
-     * @memberof Datensatz
+     * @memberof DatensatzDto
      */
     periode?: number;
     /**
      * 
-     * @type {ZusatzInfos}
-     * @memberof Datensatz
+     * @type {ZusatzInfosDto}
+     * @memberof DatensatzDto
      */
-    zusatzInfos?: ZusatzInfos;
+    zusatzInfos?: ZusatzInfosDto;
 }
 
 /**
- * Check if a given object implements the Datensatz interface.
+ * Check if a given object implements the DatensatzDto interface.
  */
-export function instanceOfDatensatz(value: object): boolean {
+export function instanceOfDatensatzDto(value: object): boolean {
     return true;
 }
 
-export function DatensatzFromJSON(json: any): Datensatz {
-    return DatensatzFromJSONTyped(json, false);
+export function DatensatzDtoFromJSON(json: any): DatensatzDto {
+    return DatensatzDtoFromJSONTyped(json, false);
 }
 
-export function DatensatzFromJSONTyped(json: any, ignoreDiscriminator: boolean): Datensatz {
+export function DatensatzDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): DatensatzDto {
     if (json == null) {
         return json;
     }
@@ -485,11 +485,11 @@ export function DatensatzFromJSONTyped(json: any, ignoreDiscriminator: boolean):
         'bestandsId': json['bestandsId'] == null ? undefined : json['bestandsId'],
         'id': json['id'] == null ? undefined : json['id'],
         'periode': json['periode'] == null ? undefined : json['periode'],
-        'zusatzInfos': json['zusatzInfos'] == null ? undefined : ZusatzInfosFromJSON(json['zusatzInfos']),
+        'zusatzInfos': json['zusatzInfos'] == null ? undefined : ZusatzInfosDtoFromJSON(json['zusatzInfos']),
     };
 }
 
-export function DatensatzToJSON(value?: Datensatz | null): any {
+export function DatensatzDtoToJSON(value?: DatensatzDto | null): any {
     if (value == null) {
         return value;
     }
@@ -557,7 +557,7 @@ export function DatensatzToJSON(value?: Datensatz | null): any {
         'bestandsId': value['bestandsId'],
         'id': value['id'],
         'periode': value['periode'],
-        'zusatzInfos': ZusatzInfosToJSON(value['zusatzInfos']),
+        'zusatzInfos': ZusatzInfosDtoToJSON(value['zusatzInfos']),
     };
 }
 
