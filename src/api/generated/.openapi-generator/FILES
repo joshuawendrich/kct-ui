@@ -5,6 +5,7 @@ index.ts
 models/AuthDto.ts
 models/DatensatzDto.ts
 models/LoginDto.ts
+models/RegisterDto.ts
 models/UpdateZusatzInfosDto.ts
 models/ZusatzInfosDto.ts
 models/index.ts

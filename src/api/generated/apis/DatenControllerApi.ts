@@ -28,6 +28,12 @@ import {
     ZusatzInfosDtoToJSON,
 } from '../models/index';
 
+export interface GetDataRequest {
+    page?: number;
+    pageSize?: number;
+    kostenstelle?: string;
+}
+
 export interface GetZusatzInfosForDatensatzRequest {
     id: number;
 }
@@ -48,8 +54,20 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getDataRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatensatzDto>>> {
+    async getDataRaw(requestParameters: GetDataRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<DatensatzDto>>> {
         const queryParameters: any = {};
+
+        if (requestParameters['page'] != null) {
+            queryParameters['page'] = requestParameters['page'];
+        }
+
+        if (requestParameters['pageSize'] != null) {
+            queryParameters['pageSize'] = requestParameters['pageSize'];
+        }
+
+        if (requestParameters['kostenstelle'] != null) {
+            queryParameters['kostenstelle'] = requestParameters['kostenstelle'];
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -73,8 +91,8 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
     /**
      */
-    async getData(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatensatzDto>> {
-        const response = await this.getDataRaw(initOverrides);
+    async getData(requestParameters: GetDataRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<DatensatzDto>> {
+        const response = await this.getDataRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

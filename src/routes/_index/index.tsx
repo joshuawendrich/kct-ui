@@ -112,7 +112,7 @@ const columns: GridColDef<DatensatzDto>[] = [
 
 function Dashboard() {
   const { data, isLoading, isError } = useQuery({
-    queryFn: getAllData,
+    queryFn: () => getAllData(),
     queryKey: ['data'],
   });
 

@@ -17,12 +17,15 @@ import * as runtime from '../runtime';
 import type {
   AuthDto,
   LoginDto,
+  RegisterDto,
 } from '../models/index';
 import {
     AuthDtoFromJSON,
     AuthDtoToJSON,
     LoginDtoFromJSON,
     LoginDtoToJSON,
+    RegisterDtoFromJSON,
+    RegisterDtoToJSON,
 } from '../models/index';
 
 export interface LoginUserRequest {
@@ -30,7 +33,7 @@ export interface LoginUserRequest {
 }
 
 export interface RegisterUserRequest {
-    loginDto: LoginDto;
+    registerDto: RegisterDto;
 }
 
 /**
@@ -83,10 +86,10 @@ export class UserControllerApi extends runtime.BaseAPI {
     /**
      */
     async registerUserRaw(requestParameters: RegisterUserRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<AuthDto>> {
-        if (requestParameters['loginDto'] == null) {
+        if (requestParameters['registerDto'] == null) {
             throw new runtime.RequiredError(
-                'loginDto',
-                'Required parameter "loginDto" was null or undefined when calling registerUser().'
+                'registerDto',
+                'Required parameter "registerDto" was null or undefined when calling registerUser().'
             );
         }
 
@@ -109,7 +112,7 @@ export class UserControllerApi extends runtime.BaseAPI {
             method: 'POST',
             headers: headerParameters,
             query: queryParameters,
-            body: LoginDtoToJSON(requestParameters['loginDto']),
+            body: RegisterDtoToJSON(requestParameters['registerDto']),
         }, initOverrides);
 
         return new runtime.JSONApiResponse(response, (jsonValue) => AuthDtoFromJSON(jsonValue));

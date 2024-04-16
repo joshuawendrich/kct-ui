@@ -7,8 +7,12 @@ export const uploadData = async (file: File) => {
   return await client.uploadData({ file });
 };
 
-export const getAllData = async () => {
-  return await client.getData();
+export const getAllData = async (
+  kostenstelle?: string,
+  page?: number,
+  pageSize?: number
+) => {
+  return await client.getData({ page, pageSize, kostenstelle });
 };
 
 export const getZusatzInfosForDatensatz = async (id: number) => {
