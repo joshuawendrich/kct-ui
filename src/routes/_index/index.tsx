@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { DatensatzDto } from '../../api/generated';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import { getAllData, updateZusatzinfos } from '../../api/daten';
 import {
   CircularProgress,
