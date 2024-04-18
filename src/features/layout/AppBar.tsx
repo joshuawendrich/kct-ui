@@ -43,6 +43,7 @@ export const AppBar: React.FC<AppBarProps> = ({ open, toggleDrawer }) => {
 
   const logout = () => {
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('kostenstellen');
     navigate({ to: '/login' });
   };
 

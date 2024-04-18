@@ -24,6 +24,7 @@ export default function SignIn() {
         return;
       }
       localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('kostenstellen', JSON.stringify(data.kostenstellen));
       navigate({ to: '/' });
     },
     onError: () => {

@@ -25,6 +25,12 @@ export interface AuthDto {
      * @memberof AuthDto
      */
     accessToken?: string;
+    /**
+     * 
+     * @type {Set<string>}
+     * @memberof AuthDto
+     */
+    kostenstellen?: Set<string>;
 }
 
 /**
@@ -45,6 +51,7 @@ export function AuthDtoFromJSONTyped(json: any, ignoreDiscriminator: boolean): A
     return {
         
         'accessToken': json['accessToken'] == null ? undefined : json['accessToken'],
+        'kostenstellen': json['kostenstellen'] == null ? undefined : json['kostenstellen'],
     };
 }
 
@@ -55,6 +62,7 @@ export function AuthDtoToJSON(value?: AuthDto | null): any {
     return {
         
         'accessToken': value['accessToken'],
+        'kostenstellen': value['kostenstellen'] == null ? undefined : Array.from(value['kostenstellen'] as Set<any>),
     };
 }
 
