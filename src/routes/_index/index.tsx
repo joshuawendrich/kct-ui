@@ -2,16 +2,19 @@ import { createFileRoute } from '@tanstack/react-router';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { DatensatzDto } from '../../api/generated';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllData, updateZusatzinfos } from '../../api/daten';
 import {
+  CircularProgress,
   FormControl,
+  Grid,
   IconButton,
   InputLabel,
   MenuItem,
   Select,
 } from '@mui/material';
 import Save from '@mui/icons-material/Save';
+import { useState } from 'react';
 
 export const Route = createFileRoute('/_index/')({
   component: () => <Dashboard />,
@@ -111,27 +114,38 @@ const columns: GridColDef<DatensatzDto>[] = [
 ];
 
 function Dashboard() {
+  const [kostenstelle, setKostenstelle] = useState<string>('');
+
   const { data, isLoading, isError } = useQuery({
-    queryFn: () => getAllData(),
-    queryKey: ['data'],
+    queryFn: () => getAllData(kostenstelle === '' ? undefined : kostenstelle),
+    queryKey: ['data', kostenstelle],
   });
 
-  if (isLoading || isError || data == null) return <div></div>;
+  if (isLoading || isError || data == null)
+    return (
+      <Grid container justifyContent={'center'} alignItems={'center'}>
+        <Grid item>
+          <CircularProgress />
+        </Grid>
+      </Grid>
+    );
 
   return (
     <Box sx={{ width: '100%' }}>
-      <FormControl style={{ width: '150px', marginBottom: 10 }}>
+      <FormControl style={{ width: '170px', marginBottom: 10 }}>
         <InputLabel id="demo-simple-select-label">Kostenstelle</InputLabel>
         <Select
           labelId="demo-simple-select-label"
           id="demo-simple-select"
-          value={''}
-          label="Age"
-          onChange={() => {}}
+          value={kostenstelle}
+          label="Kostenstelle"
+          onChange={(e): void => {
+            setKostenstelle(e.target.value);
+          }}
         >
-          <MenuItem value={10}>026828464659</MenuItem>
-          <MenuItem value={20}>026828464653</MenuItem>
-          <MenuItem value={30}>026828464657</MenuItem>
+          <MenuItem value={''}>Alle</MenuItem>
+          <MenuItem value={'026828464659'}>026828464659</MenuItem>
+          <MenuItem value={'023959064650'}>023959064650</MenuItem>
         </Select>
       </FormControl>
       <DataGrid
