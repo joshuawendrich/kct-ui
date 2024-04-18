@@ -7,7 +7,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { useNavigate } from '@tanstack/react-router';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { login } from '../../api/user';
 import { CssBaseline } from '@mui/material';
 
@@ -32,9 +32,12 @@ export default function SignIn() {
     },
   });
 
+  const queryClient = useQueryClient();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    queryClient.removeQueries();
     loginMutation({
       email: data.get('email')?.toString() ?? '',
       password: data.get('password')?.toString() ?? '',

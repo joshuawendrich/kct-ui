@@ -144,8 +144,13 @@ function Dashboard() {
           }}
         >
           <MenuItem value={''}>Alle</MenuItem>
-          <MenuItem value={'026828464659'}>026828464659</MenuItem>
-          <MenuItem value={'023959064650'}>023959064650</MenuItem>
+          {JSON.parse(localStorage.getItem('kostenstellen') ?? '[]').map(
+            (it: string) => (
+              <MenuItem key={it} value={it}>
+                {it}
+              </MenuItem>
+            )
+          )}
         </Select>
       </FormControl>
       <DataGrid

@@ -2,8 +2,6 @@ import { useNavigate } from '@tanstack/react-router';
 import MuiAppBar from '@mui/material/AppBar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import Badge from '@mui/material/Badge';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { styled } from '@mui/material/styles';
@@ -75,11 +73,6 @@ export const AppBar: React.FC<AppBarProps> = ({ open, toggleDrawer }) => {
         >
           Dashboard
         </Typography>
-        <IconButton color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
         <IconButton color="inherit" onClick={logout}>
           <LogoutIcon />
         </IconButton>
