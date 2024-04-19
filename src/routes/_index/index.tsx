@@ -36,10 +36,10 @@ const columns: GridColDef<DatensatzDto>[] = [
     field: 'produktLeistung',
     headerName: 'Produkt Leistung',
   },
-  // {
-  //   field: 'nutzer',
-  //   headerName: 'Nutzer',
-  // },
+  {
+    field: 'nutzer',
+    headerName: 'Nutzer',
+  },
   {
     field: 'monat',
     headerName: 'Monat',
@@ -48,11 +48,16 @@ const columns: GridColDef<DatensatzDto>[] = [
   {
     field: 'jahr',
     headerName: 'Jahr',
-    type: 'number',
+    type: 'string',
   },
   {
     field: 'kostenstelle',
     headerName: 'Kostenstelle',
+  },
+  {
+    field: 'gesamtpreis',
+    headerName: 'Gesamtpreis',
+    type: 'number',
   },
   {
     field: 'zusatzinfos.bemerkung',
