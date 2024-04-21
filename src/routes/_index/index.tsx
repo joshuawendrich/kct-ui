@@ -5,6 +5,7 @@ import { DatensatzDto } from '../../api/generated';
 import { useQuery } from '@tanstack/react-query';
 import { getAllData, updateZusatzinfos } from '../../api/daten';
 import {
+  Button,
   CircularProgress,
   FormControl,
   Grid,
@@ -14,7 +15,9 @@ import {
   Select,
 } from '@mui/material';
 import Save from '@mui/icons-material/Save';
+import Download from '@mui/icons-material/Download';
 import { useState } from 'react';
+import { BASE_URL } from '../../api/_config';
 
 export const Route = createFileRoute('/_index/')({
   component: () => <Dashboard />,
@@ -121,6 +124,30 @@ const columns: GridColDef<DatensatzDto>[] = [
 function Dashboard() {
   const [kostenstelle, setKostenstelle] = useState<string>('');
 
+  const [isPending, setIsPending] = useState(false);
+
+  const downloadExcel = async () => {
+    setIsPending(true);
+    try {
+      const res = await fetch(
+        `${BASE_URL}/data/download${kostenstelle === '' ? '' : `?kostenstelle=${kostenstelle}`}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          },
+        }
+      );
+      const blob = await res.blob();
+      const a = document.createElement('a');
+      a.href = window.URL.createObjectURL(blob);
+      a.download = `${new Date().toISOString().substring(0, 10)}_${kostenstelle}`;
+      a.click();
+    } catch (e) {
+      console.log(e);
+    }
+    setIsPending(false);
+  };
+
   const { data, isLoading, isError } = useQuery({
     queryFn: () => getAllData(kostenstelle === '' ? undefined : kostenstelle),
     queryKey: ['data', kostenstelle],
@@ -137,27 +164,51 @@ function Dashboard() {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <FormControl style={{ width: '170px', marginBottom: 10 }}>
-        <InputLabel id="demo-simple-select-label">Kostenstelle</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={kostenstelle}
-          label="Kostenstelle"
-          onChange={(e): void => {
-            setKostenstelle(e.target.value);
-          }}
-        >
-          <MenuItem value={''}>Alle</MenuItem>
-          {JSON.parse(localStorage.getItem('kostenstellen') ?? '[]').map(
-            (it: string) => (
-              <MenuItem key={it} value={it}>
-                {it}
-              </MenuItem>
-            )
-          )}
-        </Select>
-      </FormControl>
+      <Grid
+        container
+        gap={2}
+        alignItems={'center'}
+        style={{ marginBottom: 10 }}
+      >
+        <Grid item>
+          <FormControl style={{ width: '170px' }}>
+            <InputLabel id="demo-simple-select-label">Kostenstelle</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={kostenstelle}
+              label="Kostenstelle"
+              onChange={(e): void => {
+                setKostenstelle(e.target.value);
+              }}
+            >
+              <MenuItem value={''}>Alle</MenuItem>
+              {JSON.parse(localStorage.getItem('kostenstellen') ?? '[]').map(
+                (it: string) => (
+                  <MenuItem key={it} value={it}>
+                    {it}
+                  </MenuItem>
+                )
+              )}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <Button
+            onClick={downloadExcel}
+            variant="contained"
+            startIcon={
+              isPending ? (
+                <CircularProgress size={15} style={{ color: 'white' }} />
+              ) : (
+                <Download />
+              )
+            }
+          >
+            Excel Export
+          </Button>
+        </Grid>
+      </Grid>
       <DataGrid
         rows={data}
         columns={columns}

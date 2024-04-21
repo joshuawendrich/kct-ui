@@ -25,3 +25,7 @@ export const updateZusatzinfos = async (
 ) => {
   return await client.updateZusatzinfos({ id, updateZusatzInfosDto });
 };
+
+export const donwloadData = async (kostenstelle?: string) => {
+  return await client.downloadData({ kostenstelle });
+};
