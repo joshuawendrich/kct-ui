@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import Box from '@mui/material/Box';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { DatensatzDto } from '../../api/generated';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllData, updateZusatzinfos } from '../../api/daten';
 import {
   Button,
@@ -23,105 +23,112 @@ export const Route = createFileRoute('/_index/')({
   component: () => <Dashboard />,
 });
 
-const columns: GridColDef<DatensatzDto>[] = [
-  { field: 'id', headerName: 'ID' },
-  {
-    field: 'detailangabe1',
-    headerName: 'Detailangabe 1',
-    width: 150,
-  },
-  {
-    field: 'detailangabe2',
-    headerName: 'Detailangabe 2',
-    width: 150,
-  },
-  {
-    field: 'produktLeistung',
-    headerName: 'Produkt Leistung',
-  },
-  {
-    field: 'nutzer',
-    headerName: 'Nutzer',
-  },
-  {
-    field: 'monat',
-    headerName: 'Monat',
-    type: 'number',
-  },
-  {
-    field: 'jahr',
-    headerName: 'Jahr',
-    type: 'string',
-  },
-  {
-    field: 'kostenstelle',
-    headerName: 'Kostenstelle',
-  },
-  {
-    field: 'gesamtpreis',
-    headerName: 'Gesamtpreis',
-    type: 'number',
-  },
-  {
-    field: 'zusatzinfos.bemerkung',
-    headerName: 'Bemerkung',
-    valueGetter: ({ row }) => {
-      return row.zusatzInfos?.bemerkung;
-    },
-    editable: true,
-    valueSetter: ({ row, value }) => {
-      return { ...row, zusatzInfos: { ...row.zusatzInfos, bemerkung: value } };
-    },
-  },
-  {
-    field: 'zusatzinfos.psp',
-    headerName: 'PSP Element',
-    editable: true,
-    valueGetter: ({ row }) => {
-      return row.zusatzInfos?.pspElement;
-    },
-    valueSetter: ({ row, value }) => {
-      return { ...row, zusatzInfos: { ...row.zusatzInfos, pspElement: value } };
-    },
-  },
-  {
-    field: 'zusatzinfos.abgerechnet',
-    headerName: 'Abgerechnet Monat',
-    valueGetter: ({ row }) => {
-      return row.zusatzInfos?.abgerechnetMonat;
-    },
-    editable: true,
-    valueSetter: ({ row, value }) => {
-      if (!/^\d+$/.test(value)) return row;
-      if (parseInt(value) > 12 || parseInt(value) < 1) return row;
-      return {
-        ...row,
-        zusatzInfos: { ...row.zusatzInfos, abgerechnetMonat: value },
-      };
-    },
-  },
-  {
-    field: 'save',
-    headerName: 'Speichern',
-    renderCell: (params) => (
-      <IconButton
-        onClick={() => {
-          const row = params.row;
-          if (row.id == null) return;
-          updateZusatzinfos(row.id, {
-            abgerechnet: row.zusatzInfos?.abgerechnetMonat,
-            bemerkung: row.zusatzInfos?.bemerkung,
-            psp: row.zusatzInfos?.pspElement,
-          });
-        }}
-      >
-        <Save />
-      </IconButton>
-    ),
-  },
-];
-
 function Dashboard() {
+  const queryClient = useQueryClient();
+  const columns: GridColDef<DatensatzDto>[] = [
+    { field: 'id', headerName: 'ID' },
+    {
+      field: 'detailangabe1',
+      headerName: 'Detailangabe 1',
+      width: 150,
+    },
+    {
+      field: 'detailangabe2',
+      headerName: 'Detailangabe 2',
+      width: 150,
+    },
+    {
+      field: 'produktLeistung',
+      headerName: 'Produkt Leistung',
+    },
+    {
+      field: 'nutzer',
+      headerName: 'Nutzer',
+    },
+    {
+      field: 'monat',
+      headerName: 'Monat',
+      type: 'number',
+    },
+    {
+      field: 'jahr',
+      headerName: 'Jahr',
+      type: 'string',
+    },
+    {
+      field: 'kostenstelle',
+      headerName: 'Kostenstelle',
+    },
+    {
+      field: 'gesamtpreis',
+      headerName: 'Gesamtpreis',
+      type: 'number',
+    },
+    {
+      field: 'zusatzinfos.bemerkung',
+      headerName: 'Bemerkung',
+      valueGetter: ({ row }) => {
+        return row.zusatzInfos?.bemerkung;
+      },
+      editable: true,
+      valueSetter: ({ row, value }) => {
+        return {
+          ...row,
+          zusatzInfos: { ...row.zusatzInfos, bemerkung: value },
+        };
+      },
+    },
+    {
+      field: 'zusatzinfos.psp',
+      headerName: 'PSP Element',
+      editable: true,
+      valueGetter: ({ row }) => {
+        return row.zusatzInfos?.pspElement;
+      },
+      valueSetter: ({ row, value }) => {
+        return {
+          ...row,
+          zusatzInfos: { ...row.zusatzInfos, pspElement: value },
+        };
+      },
+    },
+    {
+      field: 'zusatzinfos.abgerechnet',
+      headerName: 'Abgerechnet Monat',
+      valueGetter: ({ row }) => {
+        return row.zusatzInfos?.abgerechnetMonat;
+      },
+      editable: true,
+      valueSetter: ({ row, value }) => {
+        if (!/^\d+$/.test(value)) return row;
+        if (parseInt(value) > 12 || parseInt(value) < 1) return row;
+        return {
+          ...row,
+          zusatzInfos: { ...row.zusatzInfos, abgerechnetMonat: value },
+        };
+      },
+    },
+    {
+      field: 'save',
+      headerName: 'Speichern',
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => {
+            queryClient.invalidateQueries({ queryKey: ['data'] });
+            const row = params.row;
+            if (row.id == null) return;
+            updateZusatzinfos(row.id, {
+              abgerechnet: row.zusatzInfos?.abgerechnetMonat,
+              bemerkung: row.zusatzInfos?.bemerkung,
+              psp: row.zusatzInfos?.pspElement,
+            });
+          }}
+        >
+          <Save />
+        </IconButton>
+      ),
+    },
+  ];
   const [kostenstelle, setKostenstelle] = useState<string>('');
 
   const [isPending, setIsPending] = useState(false);
