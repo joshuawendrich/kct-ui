@@ -6,7 +6,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import { CircularProgress, Grid, Typography } from '@mui/material';
 import FileIcon from '@mui/icons-material/Folder';
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { uploadData } from '../../api/daten';
 
 export const Route = createFileRoute('/_index/upload')({
@@ -28,6 +28,8 @@ const VisuallyHiddenInput = styled('input')({
 const FileUploadPage = () => {
   const [file, setFile] = useState<File | undefined>();
 
+  const queryClient = useQueryClient();
+
   const {
     mutate: uploadFileMutation,
     isPending,
@@ -35,6 +37,9 @@ const FileUploadPage = () => {
     isSuccess,
   } = useMutation({
     mutationFn: uploadData,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['data'] });
+    },
   });
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
