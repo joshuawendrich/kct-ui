@@ -12,7 +12,11 @@ export const getAllData = async (
   page?: number,
   pageSize?: number
 ) => {
-  return await client.getData({ page, pageSize, kostenstelle });
+  return await client.getData({
+    page,
+    pageSize,
+    kostenstelle,
+  });
 };
 
 export const getZusatzInfosForDatensatz = async (id: number) => {

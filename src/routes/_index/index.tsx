@@ -4,20 +4,12 @@ import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { DatensatzDto } from '../../api/generated';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { getAllData, updateZusatzinfos } from '../../api/daten';
-import {
-  Button,
-  CircularProgress,
-  FormControl,
-  Grid,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-} from '@mui/material';
+import { Button, CircularProgress, Grid, IconButton } from '@mui/material';
 import Save from '@mui/icons-material/Save';
 import Download from '@mui/icons-material/Download';
 import { useState } from 'react';
 import { BASE_URL } from '../../api/_config';
+import Dropdown from '../../components/Dropdown';
 
 export const Route = createFileRoute('/_index/')({
   component: () => <Dashboard />,
@@ -27,6 +19,10 @@ function Dashboard() {
   const queryClient = useQueryClient();
   const columns: GridColDef<DatensatzDto>[] = [
     { field: 'id', headerName: 'ID' },
+    {
+      field: 'organisationseinheit',
+      headerName: 'Organisationseinheit',
+    },
     {
       field: 'detailangabe1',
       headerName: 'Detailangabe 1',
@@ -178,27 +174,12 @@ function Dashboard() {
         style={{ marginBottom: 10 }}
       >
         <Grid item>
-          <FormControl style={{ width: '170px' }}>
-            <InputLabel id="demo-simple-select-label">Kostenstelle</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={kostenstelle}
-              label="Kostenstelle"
-              onChange={(e): void => {
-                setKostenstelle(e.target.value);
-              }}
-            >
-              <MenuItem value={''}>Alle</MenuItem>
-              {JSON.parse(localStorage.getItem('kostenstellen') ?? '[]').map(
-                (it: string) => (
-                  <MenuItem key={it} value={it}>
-                    {it}
-                  </MenuItem>
-                )
-              )}
-            </Select>
-          </FormControl>
+          <Dropdown
+            label="Kostenstelle"
+            value={kostenstelle}
+            onChange={setKostenstelle}
+            options={JSON.parse(localStorage.getItem('kostenstellen') ?? '[]')}
+          />
         </Grid>
         <Grid item>
           <Button
