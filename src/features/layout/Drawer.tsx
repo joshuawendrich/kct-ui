@@ -6,11 +6,9 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import { Toolbar, styled } from '@mui/material';
 import * as React from 'react';
 import UploadIcon from '@mui/icons-material/Upload';
-import ListSubheader from '@mui/material/ListSubheader';
 import DashboardIcon from '@mui/icons-material/Dashboard';
-import PersonIcon from '@mui/icons-material/Person';
-import NewUserIcon from '@mui/icons-material/Add';
 import { DrawerItem } from './DrawerItem';
+import Generate from '@mui/icons-material/Factory';
 
 type DrawerProps = {
   open: boolean;
@@ -63,21 +61,12 @@ export const Drawer: React.FC<DrawerProps> = ({ open, toggleDrawer }) => {
       <Divider />
       <List component="nav">
         <DrawerItem title="Dashboard" IconComponent={DashboardIcon} href="/" />
+        <DrawerItem
+          title="ILV Generieren"
+          IconComponent={Generate}
+          href="/generate-ilv"
+        />
         <DrawerItem title="Upload" IconComponent={UploadIcon} href="/upload" />
-        <Divider sx={{ my: 1 }} />
-        <ListSubheader component="div" inset>
-          Admin Tools
-        </ListSubheader>
-        <DrawerItem
-          href="/users"
-          title="Manage Users"
-          IconComponent={PersonIcon}
-        />
-        <DrawerItem
-          href="/users/create"
-          title="Create User"
-          IconComponent={NewUserIcon}
-        />
       </List>
     </MUIDrawer>
   );

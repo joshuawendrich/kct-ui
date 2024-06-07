@@ -19,7 +19,7 @@ const Dropdown: FC<DropdownProps> = ({ label, value, onChange, options }) => {
           onChange(e.target.value);
         }}
       >
-        <MenuItem value={''}>Alle</MenuItem>
+        <MenuItem value={''}>Keine Auswahl</MenuItem>
         {options.map((it: string) => (
           <MenuItem key={it} value={it}>
             {it}
