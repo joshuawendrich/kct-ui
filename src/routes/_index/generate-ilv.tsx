@@ -10,6 +10,14 @@ export const Route = createFileRoute('/_index/generate-ilv')({
 const GenerateIlv = () => {
   const [selectedMonth, setSelectedMonth] = useState('');
 
+  const getMonths = () => {
+    const months: string[] = [];
+    for (let i = 1; i < 13; i++) {
+      months.push(i.toString());
+    }
+    return months;
+  };
+
   return (
     <Grid container alignItems={'center'} gap={2}>
       <Grid item>
@@ -17,20 +25,7 @@ const GenerateIlv = () => {
           label="Monat"
           value={selectedMonth}
           onChange={setSelectedMonth}
-          options={[
-            '1',
-            '2',
-            '3',
-            '4',
-            '5',
-            '6',
-            '7',
-            '8',
-            '9',
-            '10',
-            '11',
-            '12',
-          ]}
+          options={getMonths()}
         />
       </Grid>
       <Grid item>
