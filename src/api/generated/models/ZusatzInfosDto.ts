@@ -49,6 +49,12 @@ export interface ZusatzInfosDto {
      * @memberof ZusatzInfosDto
      */
     pspElement?: string;
+    /**
+     * 
+     * @type {number}
+     * @memberof ZusatzInfosDto
+     */
+    abgerechnetJahr?: number;
 }
 
 /**
@@ -73,6 +79,7 @@ export function ZusatzInfosDtoFromJSONTyped(json: any, ignoreDiscriminator: bool
         'abgerechnetMonat': json['abgerechnetMonat'] == null ? undefined : json['abgerechnetMonat'],
         'vergleichIlv': json['vergleichIlv'] == null ? undefined : json['vergleichIlv'],
         'pspElement': json['pspElement'] == null ? undefined : json['pspElement'],
+        'abgerechnetJahr': json['abgerechnetJahr'] == null ? undefined : json['abgerechnetJahr'],
     };
 }
 
@@ -87,6 +94,7 @@ export function ZusatzInfosDtoToJSON(value?: ZusatzInfosDto | null): any {
         'abgerechnetMonat': value['abgerechnetMonat'],
         'vergleichIlv': value['vergleichIlv'],
         'pspElement': value['pspElement'],
+        'abgerechnetJahr': value['abgerechnetJahr'],
     };
 }
 

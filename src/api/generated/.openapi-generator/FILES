@@ -1,3 +1,4 @@
+apis/ArtikelstammdatenControllerApi.ts
 apis/DatenControllerApi.ts
 apis/UserControllerApi.ts
 apis/index.ts

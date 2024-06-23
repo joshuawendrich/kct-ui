@@ -75,7 +75,7 @@ function Dashboard() {
       },
     },
     {
-      field: 'zusatzinfos.psp',
+      field: 'zusatzinfos.pspElement',
       headerName: 'PSP Element',
       editable: true,
       valueGetter: ({ row }) => {
@@ -89,7 +89,7 @@ function Dashboard() {
       },
     },
     {
-      field: 'zusatzinfos.abgerechnet',
+      field: 'zusatzinfos.abgerechnetMonat',
       headerName: 'Abgerechnet Monat',
       valueGetter: ({ row }) => {
         return row.zusatzInfos?.abgerechnetMonat;
@@ -103,6 +103,12 @@ function Dashboard() {
           zusatzInfos: { ...row.zusatzInfos, abgerechnetMonat: value },
         };
       },
+    },
+    {
+      field: 'zusatzinfos.abgerechnetJahr',
+      headerName: 'Abgerechnet Jahr',
+      type: 'string',
+      valueGetter: ({ row }) => row.zusatzInfos?.abgerechnetJahr,
     },
     {
       field: 'save',
