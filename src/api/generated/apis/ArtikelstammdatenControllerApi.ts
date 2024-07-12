@@ -14,6 +14,17 @@
 
 
 import * as runtime from '../runtime';
+import type {
+  GenerateIlvDto,
+} from '../models/index';
+import {
+    GenerateIlvDtoFromJSON,
+    GenerateIlvDtoToJSON,
+} from '../models/index';
+
+export interface GenerateIlvRequest {
+    generateIlvDto: GenerateIlvDto;
+}
 
 export interface UploadArtikelstammdatenRequest {
     file: Blob;
@@ -23,6 +34,48 @@ export interface UploadArtikelstammdatenRequest {
  * 
  */
 export class ArtikelstammdatenControllerApi extends runtime.BaseAPI {
+
+    /**
+     */
+    async generateIlvRaw(requestParameters: GenerateIlvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<string>>> {
+        if (requestParameters['generateIlvDto'] == null) {
+            throw new runtime.RequiredError(
+                'generateIlvDto',
+                'Required parameter "generateIlvDto" was null or undefined when calling generateIlv().'
+            );
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.accessToken) {
+            const token = this.configuration.accessToken;
+            const tokenString = await token("bearerAuth", []);
+
+            if (tokenString) {
+                headerParameters["Authorization"] = `Bearer ${tokenString}`;
+            }
+        }
+        const response = await this.request({
+            path: `/artikelstammdaten/ilv`,
+            method: 'POST',
+            headers: headerParameters,
+            query: queryParameters,
+            body: GenerateIlvDtoToJSON(requestParameters['generateIlvDto']),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse<any>(response);
+    }
+
+    /**
+     */
+    async generateIlv(requestParameters: GenerateIlvRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<string>> {
+        const response = await this.generateIlvRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
 
     /**
      */
