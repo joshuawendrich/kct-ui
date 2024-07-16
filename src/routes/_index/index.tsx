@@ -133,6 +133,7 @@ function Dashboard() {
     },
   ];
   const [kostenstelle, setKostenstelle] = useState<string>('');
+  const [orga, setOrga] = useState('');
 
   const [isPending, setIsPending] = useState(false);
 
@@ -140,7 +141,7 @@ function Dashboard() {
     setIsPending(true);
     try {
       const res = await fetch(
-        `${BASE_URL}/data/download${kostenstelle === '' ? '' : `?kostenstelle=${kostenstelle}`}`,
+        `${BASE_URL}/data/download${kostenstelle !== '' || orga !== '' ? '?' : ''}${kostenstelle === '' ? '' : `kostenstelle=${kostenstelle}`}${kostenstelle !== '' && orga !== '' ? '&' : ''}${orga !== '' ? `organisationseinheit=${orga}` : ''}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
@@ -159,8 +160,12 @@ function Dashboard() {
   };
 
   const { data, isLoading, isError } = useQuery({
-    queryFn: () => getAllData(kostenstelle === '' ? undefined : kostenstelle),
-    queryKey: ['data', kostenstelle],
+    queryFn: () =>
+      getAllData(
+        kostenstelle === '' ? undefined : kostenstelle,
+        orga === '' ? undefined : orga
+      ),
+    queryKey: ['data', kostenstelle, orga],
   });
 
   if (isLoading || isError || data == null)
@@ -186,6 +191,16 @@ function Dashboard() {
             value={kostenstelle}
             onChange={setKostenstelle}
             options={JSON.parse(localStorage.getItem('kostenstellen') ?? '[]')}
+          />
+        </Grid>
+        <Grid item>
+          <Dropdown
+            label="Organisationseinheit"
+            value={orga}
+            onChange={setOrga}
+            options={JSON.parse(
+              localStorage.getItem('organisationseinheiten') ?? '[]'
+            )}
           />
         </Grid>
         <Grid item>

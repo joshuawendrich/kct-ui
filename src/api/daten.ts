@@ -9,6 +9,7 @@ export const uploadData = async (file: File) => {
 
 export const getAllData = async (
   kostenstelle?: string,
+  orga?: string,
   page?: number,
   pageSize?: number
 ) => {
@@ -16,6 +17,7 @@ export const getAllData = async (
     page,
     pageSize,
     kostenstelle,
+    organisationseinheit: orga,
   });
 };
 

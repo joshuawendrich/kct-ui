@@ -25,6 +25,10 @@ export default function SignIn() {
       }
       localStorage.setItem('accessToken', data.accessToken);
       localStorage.setItem('kostenstellen', JSON.stringify(data.kostenstellen));
+      localStorage.setItem(
+        'organisationseinheiten',
+        JSON.stringify(data.organisationseinheiten)
+      );
       navigate({ to: '/' });
     },
     onError: () => {

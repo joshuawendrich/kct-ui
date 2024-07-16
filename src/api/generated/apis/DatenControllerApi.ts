@@ -30,12 +30,14 @@ import {
 
 export interface DownloadDataRequest {
     kostenstelle?: string;
+    organisationseinheit?: string;
 }
 
 export interface GetDataRequest {
     page?: number;
     pageSize?: number;
     kostenstelle?: string;
+    organisationseinheit?: string;
 }
 
 export interface GetZusatzInfosForDatensatzRequest {
@@ -63,6 +65,10 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
         if (requestParameters['kostenstelle'] != null) {
             queryParameters['kostenstelle'] = requestParameters['kostenstelle'];
+        }
+
+        if (requestParameters['organisationseinheit'] != null) {
+            queryParameters['organisationseinheit'] = requestParameters['organisationseinheit'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
@@ -107,6 +113,10 @@ export class DatenControllerApi extends runtime.BaseAPI {
 
         if (requestParameters['kostenstelle'] != null) {
             queryParameters['kostenstelle'] = requestParameters['kostenstelle'];
+        }
+
+        if (requestParameters['organisationseinheit'] != null) {
+            queryParameters['organisationseinheit'] = requestParameters['organisationseinheit'];
         }
 
         const headerParameters: runtime.HTTPHeaders = {};
