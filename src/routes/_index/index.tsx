@@ -116,14 +116,15 @@ function Dashboard() {
       renderCell: (params) => (
         <IconButton
           onClick={() => {
-            queryClient.invalidateQueries({ queryKey: ['data'] });
             const row = params.row;
             if (row.id == null) return;
             updateZusatzinfos(row.id, {
               abgerechnet: row.zusatzInfos?.abgerechnetMonat,
               bemerkung: row.zusatzInfos?.bemerkung,
               psp: row.zusatzInfos?.pspElement,
-            });
+            }).then(() =>
+              queryClient.invalidateQueries({ queryKey: ['data'] })
+            );
           }}
         >
           <Save />
@@ -209,11 +210,11 @@ function Dashboard() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 10,
+              pageSize: 50,
             },
           },
         }}
-        pageSizeOptions={[5, 10, 15]}
+        pageSizeOptions={[15, 50, 100]}
         disableRowSelectionOnClick
       />
     </Box>
