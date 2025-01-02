@@ -10,6 +10,7 @@ import Download from '@mui/icons-material/Download';
 import { useState } from 'react';
 import { BASE_URL } from '../../api/_config';
 import Dropdown from '../../components/Dropdown';
+import LabelOffIcon from '@mui/icons-material/Report';
 
 export const Route = createFileRoute('/_index/')({
   component: () => <Dashboard />,
@@ -122,12 +123,35 @@ function Dashboard() {
               abgerechnet: row.zusatzInfos?.abgerechnetMonat,
               bemerkung: row.zusatzInfos?.bemerkung,
               psp: row.zusatzInfos?.pspElement,
+              dontOverride: false,
             }).then(() =>
               queryClient.invalidateQueries({ queryKey: ['data'] })
             );
           }}
         >
           <Save />
+        </IconButton>
+      ),
+    },
+    {
+      field: 'savewithoutoverride',
+      headerName: 'Speichern ohne Überschreiben',
+      renderCell: (params) => (
+        <IconButton
+          onClick={() => {
+            const row = params.row;
+            if (row.id == null) return;
+            updateZusatzinfos(row.id, {
+              abgerechnet: row.zusatzInfos?.abgerechnetMonat,
+              bemerkung: row.zusatzInfos?.bemerkung,
+              psp: row.zusatzInfos?.pspElement,
+              dontOverride: true,
+            }).then(() =>
+              queryClient.invalidateQueries({ queryKey: ['data'] })
+            );
+          }}
+        >
+          <LabelOffIcon />
         </IconButton>
       ),
     },

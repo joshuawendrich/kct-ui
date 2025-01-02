@@ -37,6 +37,12 @@ export interface UpdateZusatzInfosDto {
      * @memberof UpdateZusatzInfosDto
      */
     abgerechnet?: number;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof UpdateZusatzInfosDto
+     */
+    dontOverride?: boolean;
 }
 
 /**
@@ -59,6 +65,7 @@ export function UpdateZusatzInfosDtoFromJSONTyped(json: any, ignoreDiscriminator
         'bemerkung': json['bemerkung'] == null ? undefined : json['bemerkung'],
         'psp': json['psp'] == null ? undefined : json['psp'],
         'abgerechnet': json['abgerechnet'] == null ? undefined : json['abgerechnet'],
+        'dontOverride': json['dontOverride'] == null ? undefined : json['dontOverride'],
     };
 }
 
@@ -71,6 +78,7 @@ export function UpdateZusatzInfosDtoToJSON(value?: UpdateZusatzInfosDto | null):
         'bemerkung': value['bemerkung'],
         'psp': value['psp'],
         'abgerechnet': value['abgerechnet'],
+        'dontOverride': value['dontOverride'],
     };
 }
 

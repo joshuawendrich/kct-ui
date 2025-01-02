@@ -31,4 +31,4 @@ export default {
 
 ## Generate API
 
-openapi-generator generate -g typescript-fetch -i http://localhost:8088/api/v3/api-docs -o ./src/api/generated
+openapi-generator generate -g typescript-fetch -i http://localhost:80/api/v3/api-docs -o ./src/api/generated
